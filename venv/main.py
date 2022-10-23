@@ -1,9 +1,5 @@
 from speechtotext import *
 
-print("Hello")
-
-print("__name__ value: ", __name__)
-
 
 def main():
     textToAudio("Hello, what is your name?")

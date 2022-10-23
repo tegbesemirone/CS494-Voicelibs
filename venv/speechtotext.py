@@ -4,6 +4,7 @@ import json
 import os
 import sounddevice as sd
 import soundfile as sf
+
 from google.cloud import speech
 from gtts import gTTS
 from playsound import playsound
@@ -16,7 +17,7 @@ duration = 3  # seconds
 filename = 'output.wav'
 
 # function records audio for sentence analytics.
-# For now, this will have a static listening time of 5 seconds until
+# For now, this will have a static listening time of 3 seconds until
 # a more intuitive usage is found
 #returns type ndarray of sounddevice
 def recordAudio():
@@ -68,9 +69,3 @@ def textToAudio(transcript):
     os.remove('tester3.mp3')
 
 
-
-
-
-#myObj.save("tester.mp3")
-
-#os.system("start tester.mp3")
