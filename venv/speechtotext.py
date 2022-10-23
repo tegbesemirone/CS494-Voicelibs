@@ -6,17 +6,14 @@ import sounddevice as sd
 import soundfile as sf
 from google.cloud import speech
 from gtts import gTTS
+from playsound import playsound
 
 #initializes the cloud speech to text client
 client = speech.SpeechClient.from_service_account_file('key.json')
 
 samplerate = 44100  # Hertz
-duration = 5  # seconds
+duration = 3  # seconds
 filename = 'output.wav'
-
-#mydata = sd.rec(int(samplerate * duration), samplerate=samplerate,
-#                channels=2, blocking=True)
-
 
 # function records audio for sentence analytics.
 # For now, this will have a static listening time of 5 seconds until
@@ -59,8 +56,17 @@ def transcribeAudio(mydata, filename):
     transcript = str(wjdata['results'][0]['alternatives'][0]['transcript'])
 
     # converts the text string from the transcript to mp3 audio
-    #myObj = gTTS(text=wjdata['results'][0]['alternatives'][0]['transcript'], lang='en', slow=False)
+
     return transcript #return audio object
+
+#this function will convert the text to audio, then also play the audio
+def textToAudio(transcript):
+    myObj = gTTS(text=transcript,lang='en', slow=False)
+    myObj.save('tester3.mp3')
+    print(transcript)
+    playsound('tester3.mp3')
+    os.remove('tester3.mp3')
+
 
 
 

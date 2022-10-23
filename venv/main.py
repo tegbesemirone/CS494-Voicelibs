@@ -6,7 +6,10 @@ print("__name__ value: ", __name__)
 
 
 def main():
-    print("python main function")
+    textToAudio("Hello, what is your name?")
+    data = recordAudio()
+    name = transcribeAudio(data, "output.wav")
+    textToAudio("Hello "+ name)
 
 
 if __name__ == '__main__':
