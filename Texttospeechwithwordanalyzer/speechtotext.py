@@ -5,6 +5,8 @@ import os
 import sounddevice as sd
 import soundfile as sf
 
+from fpdf import FPDF
+
 import nltk
 #nltk.download('all')
 nltk.download('wordnet')
@@ -81,5 +83,19 @@ def wordAnalyzer(word):
         if data.name().split('.')[0] == word:
             typeOfSpeech.add(data.pos())
     return (typeOfSpeech)
+
+
+
+def turnArrToPDF(storyArr):
+    pdf=FPDF()
+    pdf.alias_nb_pages()
+    pdf.add_page()
+    pdf.set_font('Courier', 'B', 16)
+    pdf.cell(0, 10, 'Story:', 0, 1)
+    pdf.set_font('Times', '', 12)
+    for i in range(0, len(storyArr)):
+        pdf.cell(0, 10, storyArr[i], 0, 1)
+    pdf.output('Users_Story.pdf', 'F')
+
 
 
