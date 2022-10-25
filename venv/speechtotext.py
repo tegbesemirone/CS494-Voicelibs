@@ -92,3 +92,5 @@ def turnArrToPDF(storyArr):
         pdf.cell(0, 10, storyArr[i], 0, 1)
     pdf.output('Users_Story.pdf', 'F')
 
+def helpPage():
+    return "Say \"Finish Story\" to export the story you have into a pdf file. Say \"Read Story\" to be able to hear the story you have made so far. Saying \"Help\" takes you to this screen so you can see the commands."
