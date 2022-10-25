@@ -1,6 +1,7 @@
 import pyaudio
 import wave
 import json
+import nltk
 import os
 import sounddevice as sd
 import soundfile as sf
@@ -8,6 +9,10 @@ import soundfile as sf
 from google.cloud import speech
 from gtts import gTTS
 from playsound import playsound
+
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+from nltk.corpus import wordnet as wn
 
 #initializes the cloud speech to text client
 client = speech.SpeechClient.from_service_account_file('key.json')
@@ -68,4 +73,22 @@ def textToAudio(transcript):
     playsound('tester3.mp3')
     os.remove('tester3.mp3')
 
+def wordAnalyzer(word):
+    typeOfSpeech = set()
+    for data in wn.synsets(word):
+        if data.name().split('.')[0] == word:
+            typeOfSpeech.add(data.pos())
+    return (typeOfSpeech)
+
+
+def turnArrToPDF(storyArr):
+    pdf=FPDF()
+    pdf.alias_nb_pages()
+    pdf.add_page()
+    pdf.set_font('Courier', 'B', 16)
+    pdf.cell(0, 10, 'Story:', 0, 1)
+    pdf.set_font('Times', '', 12)
+    for i in range(0, len(storyArr)):
+        pdf.cell(0, 10, storyArr[i], 0, 1)
+    pdf.output('Users_Story.pdf', 'F')
 
