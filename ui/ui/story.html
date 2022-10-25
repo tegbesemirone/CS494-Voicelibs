@@ -1,0 +1,39 @@
+<!--parse json file from the speech to text api, use pyscript to display-->
+<!-- what if we kept appending to a string--> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />-->
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <title>sad libs</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body onload="typeWriter()">
+<!-- create pop up with commands, this will show up when "help" is verbalized -->
+
+<p id="demo"></p>
+<py-script>
+    
+    
+</py-script>
+
+<!--javascrpt is only used for the typewriter effect, maybe it can be done for every string being appended to the final string-->
+<script>
+    var i = 0;
+    var txt = 'hello world welcome - we are here';
+    var speed = 50;
+
+    function typeWriter() {
+    if (i < txt.length) {
+        document.getElementById("demo").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+    }
+    }
+</script>
+
+</body>
+</html>
