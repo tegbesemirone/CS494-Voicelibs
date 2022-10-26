@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import pyaudio
 import wave
 import json
@@ -33,6 +34,7 @@ def recordAudio():
 #this function accesses the google sppech to text api
 # then returns the transcript from the audio recording
 #returns a string
+#IndexError thrown if nothing is said
 def transcribeAudio(mydata, filename):
     sf.write(filename, mydata, samplerate)
 

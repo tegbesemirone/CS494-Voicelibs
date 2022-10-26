@@ -5,7 +5,7 @@ currMadlib = ["Once upon a blank, in a kingdom far, far away ", ", there lived a
 "Princess blank was loved by everyone ", "in the kingdom of blank-shire, ", "whether they were members of the royal blank, ", "Knights of the blank Table, ",
 "or blank vendors in the town square. ", "Even the blank farmers who lived ","far outisde the tall castle blank adored her!"]
 newMadlib = []
-wordtype = [". can you say a noun please", ". please say an adjective to discribe the princess",
+wordtype = [". can you say a noun please", " please say an adjective to discribe the princess",
  ". say a silly word, needs to be a noun", ". say an animal", ". Mention a place, a noun of course", ". give me a descriptive adjective please",
   ". give a noun for what the vendors are selling", ". mention a food the farmers are growing", ". give a plural noun"]
 wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n']
@@ -42,9 +42,10 @@ def main():
                 check = check.replace('.', '')
                 print("word is: "+check)
                 set = wordAnalyzer(check)
-                if (wordMatch[index] in set):
+                print(set)
+                if (wordMatch[index] in set): #checks if word matches neccessary requirements, appends index
                     newMadlib.append(currMadlib[index])
-                    newMadlib[index].replace("blank", check)
+                    newMadlib[index] = newMadlib[index].replace("blank", check)
                     index +=1
                 else:
                     textToAudio("Sorry, that word wont work, say another one")
@@ -53,12 +54,15 @@ def main():
             elif word_count(name) == 2: #handles commands
                 command = name.lower()
                 command = command.replace('.', '')
-                if('read' in command and 'story' in command):
+                if('read' in command and 'story' in command): # read story command
+                    story = ""
                     for a in newMadlib:
-                        textToAudio(a)
+                        
+                        story += a
+                        textToAudio(story)
                     textToAudio("I will now continue dictating the story from the last line")
                     tobeValidated = False
-                if('finish' in command and 'story' in command):
+                if('finish' in command and 'story' in command): # finish story command
                     turnArrToPDF(newMadlib)
                     gameOn = False
                     tobeValidated = False
