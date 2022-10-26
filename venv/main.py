@@ -1,4 +1,5 @@
 from cgitb import text
+from numpy import empty
 from speechtotext import *
 from flask import * 
 
@@ -37,7 +38,20 @@ def main():
     #While loop runs on bool gameOn, will handle entire reading and analyzing of story
     index = 0
     while(gameOn):
-        
+        if(len(currMadlib) == index):
+            gameOn = False
+            tobeValidated = False
+            
+            story = ""
+            for a in newMadlib:        
+                story += a
+            textToAudio("You have reached the end of this passage, lets read your story and export")
+            textToAudio(story)
+            turnArrToPDF(newMadlib) 
+            textToAudio("Your story has been exported to a pdf, closing down the application")
+            os.close()
+
+    
         textToAudio(currMadlib[index] + wordtype[index])
         
         tobeValidated = True
@@ -62,6 +76,8 @@ def main():
                     newMadlib[index] = newMadlib[index].replace("blank", check)
                     index +=1
                     tobeValidated = False
+                elif(len(set) == 0):
+                    textToAudio(wordtype[index])
                 else:
                     textToAudio("Sorry, that word wont work, say another one")
                     textToAudio(wordtype[index])
@@ -80,7 +96,7 @@ def main():
                     tobeValidated = False
                 if('finish' in command and 'story' in command): # finish story command
                     turnArrToPDF(newMadlib)
-                    textToAudio("Story has been exported. I enjoyed your creativity "+ name+ ", I am now shutting off goodbye.")
+                    textToAudio("Story has been exported. I enjoyed your creativity "+ userName+ ", I am now shutting off goodbye.")
                     gameOn = False
                     tobeValidated = False
             else:

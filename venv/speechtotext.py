@@ -62,7 +62,11 @@ def transcribeAudio(mydata, filename):
     wjdata = json.loads(json_file)
 
     # Static call to transcript will always be wjdata['results'][0]['alternatives'][0]['transcript']
-    transcript = str(wjdata['results'][0]['alternatives'][0]['transcript'])
+    try:
+        transcript = str(wjdata['results'][0]['alternatives'][0]['transcript'])
+    except:
+        textToAudio("I did not hear anything from the user")
+        transcript = " "
 
     # converts the text string from the transcript to mp3 audio
 
