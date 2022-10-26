@@ -1,5 +1,10 @@
 from cgitb import text
 from speechtotext import *
+from flask import * 
+
+# Flask constructor takes the name of
+# current module (__name__) as argument.
+app = Flask(__name__)
 
 currMadlib = ["Once upon a blank, in a kingdom far, far away ", ", there lived a blank princess. ",
 "Princess blank was loved by everyone ", "in the kingdom of blank-shire, ", "whether they were members of the royal blank, ", "Knights of the blank Table, ",
@@ -11,12 +16,14 @@ wordtype = [". can you say a noun please", " please say an adjective to discribe
 wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n']
 wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n']
 
+@app.route('/')
 
 def main():
     gameOn = True
     textToAudio("Hello, what is your name?")
     data = recordAudio()
     name = transcribeAudio(data, "output.wav")
+    userName = name
     textToAudio("Hello "+ name+" Welcome to Madlibs, a game where you can add your own words to finish the story")
     textToAudio("While I dictate the story to you, I will add blanks in each section of the sentence for you to replace, then i will give you 3 seconds to fill the word")
     textToAudio("I'll also tell you what type of word i need, whether it's a noun, verb, or adjective. Do you understand? Say yes or help to continue.")
@@ -88,4 +95,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    app.run()
