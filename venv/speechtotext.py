@@ -103,4 +103,4 @@ def word_count(string):
     return(len(string.strip().split(" ")))
 
 def helpPage():
-    return "Say \"Finish Story\" to export the story you have into a pdf file. Say \"Read Story\" to be able to hear the story you have made so far. Saying \"Help\" takes you to this screen so you can see the commands."
+    return "Say \"Finish Story\" to export the story you have into a pdf file. Say \"Read Story\" to be able to hear the story you have made so far. Saying \"Help\" takes you to this screen so you can see the commands. If you are hearing this prior to starting the game, then you wont be able to read or finish the story, as I have not began reading it to you. The game will continue now from your current point"

@@ -9,6 +9,7 @@ wordtype = [". can you say a noun please", " please say an adjective to discribe
  ". say a silly word, needs to be a noun", ". say an animal", ". Mention a place, a noun of course", ". give me a descriptive adjective please",
   ". give a noun for what the vendors are selling", ". mention a food the farmers are growing", ". give a plural noun"]
 wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n']
+wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n']
 
 
 def main():
@@ -23,6 +24,8 @@ def main():
     name = transcribeAudio(data, "output.wav")
     if name == "Yes." or name == 'yes.':
         textToAudio("Great, let us begin")
+    elif name == "Help." or name == "help.":
+        textToAudio(helpPage())
     
     #While loop runs on bool gameOn, will handle entire reading and analyzing of story
     index = 0
@@ -40,18 +43,24 @@ def main():
             if word_count(name) == 1: #checks if only one word was stated
                 check = name.lower()
                 check = check.replace('.', '')
+                if(check == "help"):
+                    textToAudio(helpPage())
+                    break
+                
                 print("word is: "+check)
                 set = wordAnalyzer(check)
                 print(set)
-                if (wordMatch[index] in set): #checks if word matches neccessary requirements, appends index
+                if (wordMatch[index] in set or wordAlt[index] in set): #checks if word matches neccessary requirements, appends index
                     newMadlib.append(currMadlib[index])
                     newMadlib[index] = newMadlib[index].replace("blank", check)
                     index +=1
+                    tobeValidated = False
                 else:
                     textToAudio("Sorry, that word wont work, say another one")
+                    textToAudio(wordtype[index])
 
-                tobeValidated = False
-            elif word_count(name) == 2: #handles commands
+                
+            elif word_count(name) == 2: #handles commands "Read Story" and "Finish Story"
                 command = name.lower()
                 command = command.replace('.', '')
                 if('read' in command and 'story' in command): # read story command
@@ -60,14 +69,17 @@ def main():
                         
                         story += a
                     textToAudio(story)    
-                    textToAudio("I will now continue dictating the story from the last line")
+                    textToAudio("I will now continue dictating the story from the next line")
                     tobeValidated = False
                 if('finish' in command and 'story' in command): # finish story command
                     turnArrToPDF(newMadlib)
+                    textToAudio("Story has been exported. I enjoyed your creativity "+ name+ ", I am now shutting off goodbye.")
                     gameOn = False
                     tobeValidated = False
             else:
-                textToAudio("I didn't understand what you just said, please keep phrases to one or 2 words")
+                textToAudio("I didn't understand what you just said, please keep phrases to one or two words until my creators improve my processing power."+
+                 "Respond help to review the commands after I read the next line. I will now repeat the last mentioned line.")
+                textToAudio(wordtype[index])
             
                
 
