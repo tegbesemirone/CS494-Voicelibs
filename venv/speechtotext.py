@@ -1,4 +1,5 @@
 from asyncio.windows_events import NULL
+from fpdf import FPDF
 import pyaudio
 import wave
 import json
@@ -84,7 +85,7 @@ def wordAnalyzer(word):
 
 
 def turnArrToPDF(storyArr):
-    pdf=FPDF()
+    pdf = FPDF()
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.set_font('Courier', 'B', 16)

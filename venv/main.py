@@ -59,7 +59,7 @@ def main():
                     for a in newMadlib:
                         
                         story += a
-                        textToAudio(story)
+                    textToAudio(story)    
                     textToAudio("I will now continue dictating the story from the last line")
                     tobeValidated = False
                 if('finish' in command and 'story' in command): # finish story command
