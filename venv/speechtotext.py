@@ -15,7 +15,7 @@ nltk.download('omw-1.4')
 from nltk.corpus import wordnet as wn
 
 #initializes the cloud speech to text client
-client = speech.SpeechClient.from_service_account_file('key.json')
+client = speech.SpeechClient.from_service_account_file('venv\key.json')
 
 samplerate = 44100  # Hertz
 duration = 3  # seconds
@@ -91,6 +91,13 @@ def turnArrToPDF(storyArr):
     for i in range(0, len(storyArr)):
         pdf.cell(0, 10, storyArr[i], 0, 1)
     pdf.output('Users_Story.pdf', 'F')
+
+def word_count(string):
+    # Here we are removing the spaces from start and end,
+    # and breaking every word whenever we encounter a space
+    # and storing them in a list. The len of the list is the
+    # total count of words.
+    return(len(string.strip().split(" ")))
 
 def helpPage():
     return "Say \"Finish Story\" to export the story you have into a pdf file. Say \"Read Story\" to be able to hear the story you have made so far. Saying \"Help\" takes you to this screen so you can see the commands."
