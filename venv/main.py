@@ -25,7 +25,6 @@ r.energy_threshold = 300
 
 
 
-
 currMadlib = ["Once upon a blank, in a kingdom far, far away ", ", there lived a blank princess. ",
 "Princess blank was loved by everyone ", "in the kingdom of blank-shire, ", "whether they were members of the royal blank, ", "Knights of the blank Table, ",
 "or blank vendors in the town square. ", "Even the blank farmers who lived ","far outisde the tall castle blank adored her!"]
@@ -40,19 +39,25 @@ wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n']
 
 def main():
     gameOn = True
+    wrongRead = True
     converter.say("Hello, what is your name?")
     print("Hello, what is your name?")
     converter.runAndWait()
     #data
     audio = 0
-    with sr.Microphone() as source:
-        r.adjust_for_ambient_noise(source, .25)
-        audio = r.listen(source)
-    #name = transcribeAudio(data, "output.wav")
-    try:
-        name = r.recognize_google(audio)
-    except:
-        print("Could Not Recognize what you said")
+    while wrongRead:
+        print("You may speak now......")
+        with sr.Microphone() as source:
+            r.adjust_for_ambient_noise(source, .25)
+            audio = r.listen(source)
+        #name = transcribeAudio(data, "output.wav")
+        try:
+            name = r.recognize_google(audio)
+            wrongRead = False
+        except:
+            print("Could Not Recognize what you said, try again")
+            converter.say("Could Not Recognize what you said, try again")
+            converter.runAndWait()
     userName = name
     converter.say("Hello "+ name+" Welcome to Madlibs, a game where you can add your own words to finish the story")
     print("Hello "+ name+" Welcome to Madlibs, a game where you can add your own words to finish the story")
@@ -61,13 +66,20 @@ def main():
     converter.say("I'll also tell you what type of word i need, whether it's a noun, verb, or adjective. Do you understand? Say yes or help to continue.")
     print("I'll also tell you what type of word i need, whether it's a noun, verb, or adjective. Do you understand? Say yes or help to continue.")
     converter.runAndWait()
-    with sr.Microphone() as source:
-        r.adjust_for_ambient_noise(source, .25)
-        audio = r.listen(source)
-    try:
-        name = r.recognize_google(audio)
-    except:
-        print("Could Not Recognize what you said")
+    wrongRead = True
+    while wrongRead:
+        print("You may speak now......")
+        with sr.Microphone() as source:
+            r.adjust_for_ambient_noise(source, .25)
+            audio = r.listen(source)
+        try:
+            name = r.recognize_google(audio)
+            wrongRead = False
+        except:
+            print("Could Not Recognize what you said, try again")
+            converter.say("Could Not Recognize what you said, try again")
+            converter.runAndWait()
+
     if name == "Yes." or name == 'yes.':
         converter.say("Great, let us begin")
         print("Great, let us begin")
@@ -99,18 +111,27 @@ def main():
         converter.say(currMadlib[index] + wordtype[index])
         print(currMadlib[index] + wordtype[index])
         converter.runAndWait()
-        
         tobeValidated = True
 
         #While loop checks if a word needs to be validated, will handle error checking
         while (tobeValidated):
-            with sr.Microphone() as source:
-                r.adjust_for_ambient_noise(source, .25)
-                audio = r.listen(source)
-            try:
-                name = r.recognize_google(audio)
-            except:
-                print("Could Not Recognize what you said")
+            wrongRead = True
+            while wrongRead:
+                print("You may speak now......")
+                with sr.Microphone() as source:
+                    r.adjust_for_ambient_noise(source, .25)
+                    audio = r.listen(source)
+                try:
+                    name = r.recognize_google(audio)
+                    wrongRead = False
+                except:
+                    print("Could Not Recognize what you said, try again")
+                    converter.say("Could Not Recognize what you said, try again")
+                    converter.runAndWait()
+                    break
+            if wrongRead:
+                continue
+                    
 
             if word_count(name) == 1: #checks if only one word was stated
                 check = name.lower()
