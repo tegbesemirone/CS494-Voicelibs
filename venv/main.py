@@ -13,7 +13,6 @@ import speech_recognition as sr
 app = Flask(__name__)
 
 
-
 converter = pyttsx3.init()
 # Can be more than 100
 converter.setProperty('rate', 175)
