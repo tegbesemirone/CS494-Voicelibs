@@ -21,6 +21,7 @@ converter.setProperty('volume', 0.5)
 
 r = sr.Recognizer()
 r.energy_threshold = 300
+r.dynamic_energy_threshold = True
 
 
 
