@@ -3,7 +3,7 @@ from operator import le
 from re import I
 from numpy import empty
 from speechtotext import *
-from flask import * 
+from flask import Flask 
 import pyttsx3
 import apiai as sr
 import speech_recognition as sr
@@ -190,12 +190,3 @@ def main():
                  "Respond help to review the commands after I read the next line. I will now repeat the last mentioned line.")
                 print(wordtype[index])
                 converter.runAndWait()
-            
-               
-
-
-
-
-
-if __name__ == '__main__':
-    main()

@@ -16,7 +16,7 @@ nltk.download('omw-1.4')
 from nltk.corpus import wordnet as wn
 
 #initializes the cloud speech to text client
-client = speech.SpeechClient.from_service_account_file('venv/key.json')
+client = speech.SpeechClient.from_service_account_file('key.json')
 
 samplerate = 44100  # Hertz
 duration = 3  # seconds
