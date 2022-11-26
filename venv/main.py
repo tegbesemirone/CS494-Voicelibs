@@ -13,13 +13,14 @@ app = Flask(__name__)
 
 
 
-
+#array with the Madlib story
 currMadlib = ["Once upon a blank, in a kingdom far, far away ", ", there lived a blank princess. ",
               "Princess blank was loved by everyone ", "in the kingdom of blank-shire, ",
               "whether they were members of the royal blank, ", "Knights of the blank Table, ",
               "or blank vendors in the town square. ", "Even the blank farmers who lived ",
               "far outisde the tall castle blank adored her!"]
 newMadlib = []
+#array with word prompts
 wordtype = [". can you say a noun please", " please say an adjective to discribe the princess",
             ". say a silly word, needs to be a noun", ". say an animal", ". Mention a place, a noun of course",
             ". give me a descriptive adjective please",
@@ -32,7 +33,9 @@ wordAlt = ['n', 's', 'n', 'n', 'n', 's', 'n', 'n', 'n']
 @app.route('/')
 def main():
     gameOn = True
-    #wrongRead = True
+
+    #calls the dialoflow agent for better answer response analysis from application
+    agentResponse = " "
     textToAudio("Hello, what is your name?")
     name = transcribeAudio()
     userName = callAgent(name)
@@ -40,15 +43,16 @@ def main():
     textToAudio(
         "While I dictate the story to you, I will add blanks in each section of the sentence for you to replace, then i will give you 3 seconds to fill the word")
     textToAudio(
-        "I'll also tell you what type of word i need, whether it's a noun, verb, or adjective. Do you understand? Say yes or help to continue.")
-    #converter.runAndWait()
+        "I'll also tell you what type of word i need, whether it's a noun, verb, or adjective. If you need additional help, just ask for it. Do you understand?")
     name = transcribeAudio()
+    agentResponse = callAgent(name)
 
-    if name == "Yes." or name == 'yes.':
+    #checks if the commands match the accepted phrases, game starts regardless of if the phrases match
+    if agentResponse == "Yes":
         textToAudio("Great, let us begin")
-    elif name == "Help." or name == "help.":
+    elif agentResponse == "Help":
         textToAudio(helpPage())
-    #converter.runAndWait()
+
     # While loop runs on bool gameOn, will handle entire reading and analyzing of story
     index = 0
     while (gameOn):
@@ -63,40 +67,41 @@ def main():
             textToAudio(story)
             turnArrToPDF(newMadlib)
             textToAudio("Your story has been exported to a pdf, closing down the application")
-            #converter.runAndWait()
             os.close()
 
         textToAudio(currMadlib[index] + wordtype[index])
-        #converter.runAndWait()
         tobeValidated = True
 
         # While loop checks if a word needs to be validated, will handle error checking
         while (tobeValidated):
+
             name = transcribeAudio()
 
+
             if word_count(name) == 1:  # checks if only one word was stated
+
                 check = name.lower()
                 check = check.replace('.', '')
                 if (check == "help"):
+
                     textToAudio(helpPage())
-                    #converter.runAndWait()
                     break
 
                 print("word is: " + check)
                 set = wordAnalyzer(check)
                 print(set)
                 if (wordMatch[index] in set or wordAlt[index] in set):  # checks if word matches neccessary requirements, appends index
+
                     newMadlib.append(currMadlib[index])
                     newMadlib[index] = newMadlib[index].replace("blank", check)
                     index += 1
                     tobeValidated = False
                 elif (len(set) == 0):
+
                     textToAudio(wordtype[index])
-                    #converter.runAndWait()
                 else:
                     textToAudio("Sorry, that word wont work, say another one")
                     textToAudio(wordtype[index])
-                    #converter.runAndWait()
 
 
             elif word_count(name) == 2:  # handles commands "Read Story" and "Finish Story"
@@ -108,13 +113,11 @@ def main():
                         story += a
                     textToAudio(story)
                     textToAudio("I will now continue dictating the story from the next line")
-                    #converter.runAndWait()
                     tobeValidated = False
                 if ('finish' in command and 'story' in command):  # finish story command
                     turnArrToPDF(newMadlib)
                     textToAudio(
                         "Story has been exported. I enjoyed your creativity " + userName + ", I am now shutting off goodbye.")
-                    #converter.runAndWait()
                     gameOn = False
                     tobeValidated = False
             else:
@@ -122,8 +125,6 @@ def main():
                     "I didn't understand what you just said, please keep phrases to one or two words until my creators improve my processing power." +
                     "Respond help to review the commands after I read the next line. I will now repeat the last mentioned line.")
                 textToAudio(wordtype[index])
-                #converter.runAndWait()
-
 
 if __name__ == '__main__':
     main()
