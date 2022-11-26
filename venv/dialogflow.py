@@ -1,9 +1,9 @@
 from google.cloud import dialogflow
 from google.api_core.exceptions import InvalidArgument
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "single-inquiry-369823-b1c6244e4daf.json"
 #credentials to connect to dialogflow API
-DIALOGFLOW_PROJECT_ID = 'madlibs-dmdw'
+DIALOGFLOW_PROJECT_ID = 'single-inquiry-369823'
 DIALOGFLOW_LANGUAGE_CODE = 'en-US'
 #GOOGLE_APPLICATION_CREDENTIALS = 'dialogflow.json'
 SESSION_ID = 'madlibs-session'
