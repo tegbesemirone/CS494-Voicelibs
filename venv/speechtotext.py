@@ -13,18 +13,19 @@ from google.cloud import speech
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 from nltk.corpus import wordnet as wn
+from nltk.corpus import wordnet as wn
+from nltk.stem.wordnet import WordNetLemmatizer
 
 #initializes the cloud speech to text client
 client = speech.SpeechClient.from_service_account_file('venv\\key.json')
 
+#parameters for converter. Can be changed
 converter = pyttsx3.init()
-# Can be more than 100
 converter.setProperty('rate', 220)
-# Set volume 0-1
 converter.setProperty('volume', 0.5)
 
 r = sr.Recognizer()
-
+Lem = WordNetLemmatizer()
 
 # function records audio for sentence analytics.
 # For now, this will have a static listening time of 3 seconds until
@@ -66,8 +67,10 @@ def textToAudio(transcript):
 #returns the set of wordtypes a word can be. Analyzes without context of prior sentence
 def wordAnalyzer(word):
     typeOfSpeech = set()
-    for data in wn.synsets(word):
-        if data.name().split('.')[0] == word:
+    lemword = Lem.lemmatize(word)
+
+    for data in wn.synsets(lemword):
+        if data.name().split('.')[0] == lemword:
             typeOfSpeech.add(data.pos())
     return (typeOfSpeech)
 

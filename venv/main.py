@@ -41,7 +41,7 @@ def main():
     userName = callAgent(name)
     textToAudio("Hello " + userName + " Welcome to Madlibs, a game where you can add your own words to finish the story")
     textToAudio(
-        "While I dictate the story to you, I will add blanks in each section of the sentence for you to replace, then i will give you 3 seconds to fill the word")
+        "While I dictate the story to you, I will add blanks in each section of the sentence for you to replace, then i will give you some time to give me a response")
     textToAudio(
         "I'll also tell you what type of word i need, whether it's a noun, verb, or adjective. If you need additional help, just ask for it. Do you understand?")
     name = transcribeAudio()
@@ -69,57 +69,58 @@ def main():
             textToAudio("Your story has been exported to a pdf, closing down the application")
             os.close()
 
+        #reads the current line of the story, then reads the wordtype prompt to user.
         textToAudio(currMadlib[index] + wordtype[index])
         tobeValidated = True
 
         # While loop checks if a word needs to be validated, will handle error checking
         while (tobeValidated):
-
             name = transcribeAudio()
-
-
-            if word_count(name) == 1:  # checks if only one word was stated
-
+            # checks if only one word was stated
+            if word_count(name) == 1:  
                 check = name.lower()
                 check = check.replace('.', '')
-                if (check == "help"):
 
+                if (check == "help"):
                     textToAudio(helpPage())
                     break
 
                 print("word is: " + check)
                 set = wordAnalyzer(check)
                 print(set)
-                if (wordMatch[index] in set or wordAlt[index] in set):  # checks if word matches neccessary requirements, appends index
-
+                # checks if word matches neccessary requirements, appends index
+                if (wordMatch[index] in set or wordAlt[index] in set):  
                     newMadlib.append(currMadlib[index])
                     newMadlib[index] = newMadlib[index].replace("blank", check)
                     index += 1
                     tobeValidated = False
-                elif (len(set) == 0):
 
+                elif (len(set) == 0):
                     textToAudio(wordtype[index])
+
                 else:
                     textToAudio("Sorry, that word wont work, say another one")
                     textToAudio(wordtype[index])
-
-
-            elif word_count(name) == 2:  # handles commands "Read Story" and "Finish Story"
+            # handles commands "Read Story" and "Finish Story"
+            elif word_count(name) == 2:  
                 command = name.lower()
                 command = command.replace('.', '')
-                if ('read' in command and 'story' in command):  # read story command
+                # read story command
+                if ('read' in command and 'story' in command):  
                     story = ""
                     for a in newMadlib:
                         story += a
                     textToAudio(story)
                     textToAudio("I will now continue dictating the story from the next line")
                     tobeValidated = False
-                if ('finish' in command and 'story' in command):  # finish story command
+                # finish story command
+                if ('finish' in command and 'story' in command):  
                     turnArrToPDF(newMadlib)
                     textToAudio(
                         "Story has been exported. I enjoyed your creativity " + userName + ", I am now shutting off goodbye.")
                     gameOn = False
                     tobeValidated = False
+            #if nothing can be recognized, reprompt user and explain phrase was not recognized
             else:
                 textToAudio(
                     "I didn't understand what you just said, please keep phrases to one or two words until my creators improve my processing power." +
