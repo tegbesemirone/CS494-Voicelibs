@@ -18,16 +18,21 @@ currMadlib = ["Once upon a blank, in a kingdom far, far away ", ", there lived a
               "Princess blank was loved by everyone ", "in the kingdom of blank-shire, ",
               "whether they were members of the royal blank, ", "Knights of the blank Table, ",
               "or blank vendors in the town square. ", "Even the blank farmers who lived ",
-              "far outisde the tall castle blank adored her!"]
+                    "far outisde the tall castle blank adored her!", "or blank vendors in the town square. ", "Even the blank farmers who lived ","far outisde the tall castle blank adored her!",
+        "The gentle princess had a blank childhood", " blanking in the garden, playing music", "on her blank-string harp",
+        "and learning to blank-fight with her father",", the brave King blank the third.", "But one night, something blank happened that changed her life forever.",
+        "A blank-breathing dragon", " with two blanks attacked the castle!", "The king suddenly blanks after defending the castle and was never heard from again" ]
 newMadlib = []
 #array with word prompts
 wordtype = [". can you say a noun please", " please say an adjective to describe the princess",
             ". say a silly word, needs to be a noun", ". say an animal", ". Mention a place, a noun of course",
             ". give me a descriptive adjective please",
             ". give a noun for what the vendors are selling", ". mention a food the farmers are growing",
-            ". give a plural noun"]
-wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n']
-wordAlt = ['n', 's', 'n', 'n', 'n', 's', 'n', 'n', 'n']
+            ". give a plural noun", ". give a noun for what the vendors are selling", ". mention a food the farmers are growing", ". give a plural noun", ". please provide an adjective", "Provide a verb, ill add -ing to it",
+  ".give me a number please", ". say a noun, any noun", "give me a noun, i may not recognize all pronouns", "I'm looking for an adjective here", ". give me a noun, any noun", "say a body part, but make sure to say the singular version, ill make it plural",
+  "say a verb please"]
+wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n', 'a', 'v', 'n', 'n', 'n', 'a', 'n','n', 'v']
+wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n', 's','v','n', 's', 'n', 's', 'n','n', 's']
 
 
 @app.route('/')
