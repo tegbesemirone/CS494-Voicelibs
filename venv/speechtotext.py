@@ -16,9 +16,6 @@ from nltk.corpus import wordnet as wn
 from nltk.corpus import wordnet as wn
 from nltk.stem.wordnet import WordNetLemmatizer
 
-#initializes the cloud speech to text client
-client = speech.SpeechClient.from_service_account_file('venv\\key.json')
-
 #parameters for converter. Can be changed
 converter = pyttsx3.init()
 converter.setProperty('rate', 220)
@@ -26,15 +23,6 @@ converter.setProperty('volume', 0.5)
 
 r = sr.Recognizer()
 Lem = WordNetLemmatizer()
-
-# function records audio for sentence analytics.
-# For now, this will have a static listening time of 3 seconds until
-# a more intuitive usage is found
-#returns type ndarray of sounddevice
-def recordAudio():
-    mydata = sd.rec(int(samplerate * duration), samplerate=samplerate,
-                    channels=2, blocking=True)
-    return mydata
 
 #this function accesses the google sppech to text api
 # then returns the transcript from the audio recording
