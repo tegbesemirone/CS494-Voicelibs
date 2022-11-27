@@ -2,7 +2,7 @@ from cgitb import text
 from operator import le
 from re import I
 from numpy import empty
-from speechtotext import *
+from util import *
 from dialogflow import *
 from flask import *
 
@@ -122,8 +122,8 @@ def main():
                     tobeValidated = False
             #if nothing can be recognized, reprompt user and explain phrase was not recognized
             else:
-                textToAudio("I didn't understand what you just said, lets try again.")
-                textToAudio(wordtype[index])
+                textToAudio("I didn't understand what you just said, can you rephrase that, or give me another word?")
+                #textToAudio(wordtype[index])
 
 if __name__ == '__main__':
     main()
