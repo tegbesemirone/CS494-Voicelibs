@@ -146,6 +146,12 @@ class MainWindow(QMainWindow):
                     check = agentResponse.lower()
                     check = check.replace('.', '')
 
+                    if(check == "quit"):
+                        textToAudio("Turning off now, goodbye "+userName)
+                        gameOn = False
+                        tobeValidated = False
+                        break
+
                     if(check == "repeat"):
                         textToAudio("Sure, repeating the last line now")
                         break
