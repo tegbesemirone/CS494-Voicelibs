@@ -4,13 +4,6 @@ from re import I
 from numpy import empty
 from util import *
 from dialogflow import *
-from flask import *
-
-
-# Flask constructor takes the name of
-# current module (__name__) as argument.
-app = Flask(__name__)
-
 
 
 #array with the Madlib story
@@ -34,8 +27,6 @@ wordtype = [". can you say a noun please", " please say an adjective to describe
 wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n', 'a', 'v', 'n', 'n', 'n', 'a', 'n','n', 'v']
 wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n', 's','v','n', 's', 'n', 's', 'n','n', 's']
 
-
-@app.route('/')
 def main():
     gameOn = True
     agentResponse = ""
