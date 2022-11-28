@@ -23,6 +23,7 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+from PyQt5.QtGui import *
 
 converter = pyttsx3.init()
 # Can be more than 100
@@ -60,7 +61,9 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("My App")
+        self.setWindowTitle("Voice Libs")
+        self.setStyleSheet("background-color: #2b323c")
+
 
         pagelayout = QVBoxLayout()
         button_layout = QHBoxLayout()
@@ -72,18 +75,28 @@ class MainWindow(QMainWindow):
         btn = QPushButton("start")
         btn.pressed.connect(self.activate_tab_1)
         button_layout.addWidget(btn)
+        btn.setStyleSheet("background-color : green")
+        
+
 
         btn = QPushButton("help")
         btn.pressed.connect(self.activate_tab_2)
         button_layout.addWidget(btn)
+        btn.setStyleSheet("background-color : purple")
+
   
         self.setGeometry(0, 0, 400, 300)
         
         self.label = QLabel(":)", self)
+        self.label.setGeometry(200, 150, 100, 50)
+        self.label.setWordWrap(True)
+
+        pagelayout.addWidget(self.label)
 
         widget = QWidget()
         widget.setLayout(pagelayout)
         self.setCentralWidget(widget)
+        
         self.label.setAlignment(Qt.AlignCenter)
 
 
@@ -112,7 +125,7 @@ class MainWindow(QMainWindow):
 
 
     def activate_tab_2(self):
-        self.label.setText("you can press the microphone icon to say the following commands: use FINISH STORY to export the final story to a pdf,use READ STORY to have libby recite your story, use HELP to see these commands again")
+        self.label.setText("you can press the microphone icon to say the following commands: use FINISH STORY to export the final story to a pdf, use READ STORY to hear your story, use HELP to see these commands again")
 
 
 
