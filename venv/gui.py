@@ -1,3 +1,5 @@
+import sys
+
 from cgitb import text
 from operator import le
 from re import I
@@ -9,8 +11,18 @@ import apiai as sr
 import speech_recognition as sr
 import sys
 
-from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (
+    QApplication,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QStackedLayout,
+    QVBoxLayout,
+    QWidget,
+)
 
 converter = pyttsx3.init()
 # Can be more than 100
@@ -44,39 +56,43 @@ wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n', 'a', 'v', 'n', 'n', 'n
 wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n', 's','v','n', 's', 'n', 's', 'n','n', 's']
 
 
-
-# Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("VoiceLibs")
+        self.setWindowTitle("My App")
 
-        button = QPushButton("Press Me to Create your Own Story!", self)
-        button.setGeometry(200, 150, 100, 40)
-        button.clicked.connect(self.start)
+        pagelayout = QVBoxLayout()
+        button_layout = QHBoxLayout()
+        self.stacklayout = QStackedLayout()
 
-        self.setFixedSize(QSize(400, 300))
+        pagelayout.addLayout(button_layout)
+        pagelayout.addLayout(self.stacklayout)
 
-        # Set the central widget of the Window.
-        self.setCentralWidget(button)
-        #self.setCentralWidget(widget)
-        self.show()
+        btn = QPushButton("start")
+        btn.pressed.connect(self.activate_tab_1)
+        button_layout.addWidget(btn)
+
+        btn = QPushButton("help")
+        btn.pressed.connect(self.activate_tab_2)
+        button_layout.addWidget(btn)
+  
+        self.setGeometry(0, 0, 400, 300)
+        
+        self.label = QLabel(":)", self)
+
+        widget = QWidget()
+        widget.setLayout(pagelayout)
+        self.setCentralWidget(widget)
+        self.label.setAlignment(Qt.AlignCenter)
 
 
-
-    def start(self):
-        self.button.hide()
+    def activate_tab_1(self):
         gameOn = True
         wrongRead = True
         converter.say("Hello, what is your name?")
 
-
-        widget = QLabel("Hello, what is your name?")
-        font = widget.font()
-        font.setPointSize(30)
-        widget.setFont(font)
-        widget.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.label.setText("Hello, what is your name?")
 
         converter.runAndWait()
         audio = 0
@@ -93,6 +109,10 @@ class MainWindow(QMainWindow):
                 print("Could Not Recognize what you said, try again")
                 converter.say("Could Not Recognize what you said, try again")
                 converter.runAndWait()
+
+
+    def activate_tab_2(self):
+        self.label.setText("you can press the microphone icon to say the following commands: use FINISH STORY to export the final story to a pdf,use READ STORY to have libby recite your story, use HELP to see these commands again")
 
 
 
