@@ -4,8 +4,8 @@ from cgitb import text
 from operator import le
 from re import I
 from numpy import empty
-from speechtotext import *
-from flask import * 
+from util import *
+from dialogflow import *
 import pyttsx3
 import apiai as sr
 import speech_recognition as sr
@@ -102,26 +102,92 @@ class MainWindow(QMainWindow):
 
     def activate_tab_1(self):
         gameOn = True
-        wrongRead = True
-        converter.say("Hello, what is your name?")
+        agentResponse = ""
+        textToAudio("Hello, what is your name?")
+        name = transcribeAudio()
+        userName = callAgent(name)
+        introAudio(userName)
+        name = transcribeAudio()
+        agentResponse = callAgent(name)
 
-        self.label.setText("Hello, what is your name?")
+        #checks if the commands match the accepted phrases, game starts regardless of if the phrases match
+        if agentResponse == "Yes":
+            textToAudio("Great, let us begin")
+        elif agentResponse == "Help":
+            helpPage()
 
-        converter.runAndWait()
-        audio = 0
-        while wrongRead:
-            print("You may speak now......")
-            with sr.Microphone() as source:
-                r.adjust_for_ambient_noise(source, .25)
-                audio = r.listen(source)
-            #name = transcribeAudio(data, "output.wav")
-            try:
-                name = r.recognize_google(audio)
-                wrongRead = False
-            except:
-                print("Could Not Recognize what you said, try again")
-                converter.say("Could Not Recognize what you said, try again")
-                converter.runAndWait()
+        # While loop runs on bool gameOn, will handle entire reading and analyzing of story
+        index = 0
+        while (gameOn):
+            if (len(currMadlib) == index):
+                gameOn = False
+                tobeValidated = False
+                textToAudio("You have reached the end of this passage, lets read your story and export")
+                readStory(newMadlib)
+                turnArrToPDF(newMadlib)
+                textToAudio("Your story has been exported to a pdf, closing down the application")
+                os.close()
+
+            #reads the current line of the story, then reads the wordtype prompt to user.
+            textToAudio(currMadlib[index] + wordtype[index])
+            tobeValidated = True
+
+            # While loop checks if a word needs to be validated, will handle error checking
+            while (tobeValidated):
+                name = transcribeAudio()
+                agentResponse = callAgent(name)
+                print("Agent response: "+agentResponse) #error checking
+                if(agentResponse == ""):
+                    agentResponse = name
+                # checks if only one word was stated
+                if word_count(agentResponse) == 1: 
+
+                    #since wordnet only accepts lowercase format, a universal catch-all is implemented 
+                    check = agentResponse.lower()
+                    check = check.replace('.', '')
+
+                    if(check == "repeat"):
+                        textToAudio("Sure, repeating the last line now")
+                        break
+
+                    if (check == "help"):
+                        helpPage()
+                        break
+                    print("word is: " + check) #error checking
+                    set = wordAnalyzer(check)
+                    print(set)
+                    # checks if word matches neccessary requirements, appends index
+                    if (wordMatch[index] in set or wordAlt[index] in set):  
+                        newMadlib.append(currMadlib[index])
+                        newMadlib[index] = newMadlib[index].replace("blank", check)
+                        index += 1
+                        tobeValidated = False
+
+                    elif (len(set) == 0):
+                        textToAudio(wordtype[index])
+
+                    else:
+                        textToAudio("Sorry, that word wont work, say another one")
+                        textToAudio(wordtype[index])
+                # handles commands "Read Story" and "Finish Story"
+                elif word_count(agentResponse) == 2:  
+
+                    # read story command
+                    if (agentResponse == "Read Story"):  
+                        readStory(newMadlib)
+                        textToAudio("Let's continue from the current line.")
+                        tobeValidated = False
+                    # finish story command
+                    if (agentResponse == "Finish Story"): 
+                        turnArrToPDF(newMadlib)
+                        textToAudio("Story has been exported. I enjoyed your creativity " + userName + ". Let's listen to your final story, and export it to a pdf to read later!")
+                        readStory(newMadlib)
+                        gameOn = False
+                        tobeValidated = False
+                #if nothing can be recognized, reprompt user and explain phrase was not recognized
+                else:
+                    textToAudio("I didn't understand what you just said, can you rephrase that, or give me another word?")
+                    #textToAudio(wordtype[index])
 
 
     def activate_tab_2(self):
