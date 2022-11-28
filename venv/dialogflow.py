@@ -3,7 +3,7 @@ from google.api_core.exceptions import InvalidArgument
 import os
 
 #credentials to connect to dialogflow API
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "venv\single-inquiry-369823-b1c6244e4daf.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "single-inquiry-369823-b1c6244e4daf.json"
 DIALOGFLOW_PROJECT_ID = 'single-inquiry-369823'
 DIALOGFLOW_LANGUAGE_CODE = 'en-US'
 SESSION_ID = 'madlibs-session'

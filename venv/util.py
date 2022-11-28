@@ -26,8 +26,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 
 #parameters for converter. Can be changed
 converter = pyttsx3.init()
-converter.setProperty('rate', 220)
-converter.setProperty('volume', 0.5)
+
 
 r = sr.Recognizer()
 Lem = WordNetLemmatizer()
@@ -57,6 +56,8 @@ def transcribeAudio():
 
 #this function will convert the text to audio, then also play the audio
 def textToAudio(transcript):
+    converter.setProperty('rate', 200)
+    converter.setProperty('volume', 0.5)
     converter.say(transcript)
     print(transcript)
     converter.runAndWait()
@@ -109,6 +110,6 @@ def helpPage():
 def introAudio(userName):
     textToAudio("Hello " + userName + " Welcome to Voice-libs, a phrasel template word game, that you can controll with just your voice.")
     textToAudio("While I read the story to you, i'll add blanks in each section of the sentence for you to replace, then i will give you some time to give me a response.")
-    textToAudio("I will now take you to the help page, to familiarize you with some of the commands I can accept.")
-    helpPage()
+    #textToAudio("I will now take you to the help page, to familiarize you with some of the commands I can accept.")
+    #helpPage()
     textToAudio("I'll also tell you what type of word I need, whether it's a noun, verb, or adjective. If you need additional help, just ask for it. Do you understand?")
