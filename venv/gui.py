@@ -107,7 +107,7 @@ class MainWindow(QMainWindow):
     def activate_tab_1(self):
         """
         converter = pyttsx3.init()
-        self.label.setText("Hello, what is your name?")
+        
         #textToAudio("Hello, what is your name?", converter)
         #converter.setProperty('rate', 200)
         #converter.setProperty('volume', 0.5)
@@ -119,15 +119,21 @@ class MainWindow(QMainWindow):
         """
         gameOn = True
         agentResponse = ""
+        self.label.setText("Hello, what is your name?")
+        QApplication.processEvents()
         textToAudio("Hello, what is your name?")
         name = transcribeAudio()
         userName = callAgent(name)
+        self.label.setText("Hello, "+userName+". Welcome to Voice-Libs")
+        QApplication.processEvents()
         introAudio(userName)
-        
+        name = transcribeAudio()
         agentResponse = callAgent(name)
 
         #checks if the commands match the accepted phrases, game starts regardless of if the phrases match
         if agentResponse == "Yes":
+            self.label.setText("Great let us begin")
+            QApplication.processEvents()
             textToAudio("Great, let us begin")
         elif agentResponse == "Help":
             helpPage()
@@ -210,6 +216,7 @@ class MainWindow(QMainWindow):
                 else:
                     textToAudio("I didn't understand what you just said, can you rephrase that, or give me another word?")
                     #textToAudio(wordtype[index])
+       
         
 
         

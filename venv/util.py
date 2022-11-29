@@ -109,23 +109,23 @@ def word_count(string):
     return(len(string.strip().split(" ")))
 
 #reads out current story
-def readStory(newMadlib, self):
+def readStory(newMadlib):
     story = ""
     for a in newMadlib:
         story += a
-    textToAudio(story, self)
+    textToAudio(story)
 
 #reads out the help screen 
-def helpPage( self):
-    textToAudio("This is the Voice-Libs help page. Voice-libs is a take on mad-libs, the phrasal template word game, except instead of writing words, you can just say them!", self)
-    textToAudio("Throughout the game, you can ask me to read your story, and I'll read out your current story. If you ever want to finish the story, just ask me to finish your story, and i'll export it to a pdf for you!", self)
-    textToAudio("If you need to listen to something again, just ask me to repeat what I just said, and I'll recite the last line for you.", self)
-    textToAudio("Otherwise, I will assume the one word phrases you mention are entries for the game. I will now resume from the current play state, if you need to hear this again, just ask for help.", self)
+def helpPage():
+    textToAudio("This is the Voice-Libs help page. Voice-libs is a take on mad-libs, the phrasal template word game, except instead of writing words, you can just say them!")
+    textToAudio("Throughout the game, you can ask me to read your story, and I'll read out your current story. If you ever want to finish the story, just ask me to finish your story, and i'll export it to a pdf for you!")
+    textToAudio("If you need to listen to something again, just ask me to repeat what I just said, and I'll recite the last line for you.")
+    textToAudio("Otherwise, I will assume the one word phrases you mention are entries for the game. I will now resume from the current play state, if you need to hear this again, just ask for help.")
 
 #reads out intro audio for game
-def introAudio(userName, self):
-    textToAudio("Hello " + userName + " Welcome to Voice-libs, a phrasel template word game, that you can controll with just your voice.", self)
-    textToAudio("While I read the story to you, i'll add blanks in each section of the sentence for you to replace, then i will give you some time to give me a response.", self)
+def introAudio(userName):
+    textToAudio("Hello " + userName + " Welcome to Voice-libs, a phrasel template word game, that you can controll with just your voice.")
+    textToAudio("While I read the story to you, i'll add blanks in each section of the sentence for you to replace, then i will give you some time to give me a response.")
     #textToAudio("I will now take you to the help page, to familiarize you with some of the commands I can accept.")
     #helpPage()
-    textToAudio("I'll also tell you what type of word I need, whether it's a noun, verb, or adjective. If you need additional help, just ask for it. Do you understand?", self)
+    textToAudio("I'll also tell you what type of word I need, whether it's a noun, verb, or adjective. If you need additional help, just ask for it. Do you understand?")
