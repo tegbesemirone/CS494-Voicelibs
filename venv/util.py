@@ -4,19 +4,7 @@ import json
 import nltk
 import ssl
 import os
-from PyQt5.QtCore import Qt
-from PyQt5.QtTextToSpeech import QTextToSpeech
-from PyQt5.QtWidgets import (
-    QApplication,
-    QHBoxLayout,
-    QLabel,
-    QMainWindow,
-    QPushButton,
-    QStackedLayout,
-    QVBoxLayout,
-    QWidget,
-)
-from PyQt5.QtGui import *
+
 
 import pyttsx3
 import apiai as sr
@@ -37,10 +25,8 @@ nltk.download('omw-1.4')
 from nltk.corpus import wordnet as wn
 from nltk.stem.wordnet import WordNetLemmatizer
 
-#parameters for converter. Can be changed
+#parameters for converter.
 converter = pyttsx3.init()
-
-
 r = sr.Recognizer()
 Lem = WordNetLemmatizer()
 
@@ -49,7 +35,6 @@ Lem = WordNetLemmatizer()
 #returns a string
 #IndexError thrown if nothing is said
 def transcribeAudio():
-    
     r.dynamic_energy_threshold = True
     wrongRead = True
     audio = 0
@@ -68,9 +53,7 @@ def transcribeAudio():
     return name
 
 #this function will convert the text to audio, then also play the audio
-
 def textToAudio(transcript):
-    #self.label.setText(transcript)
     converter.setProperty('rate', 200)
     converter.setProperty('volume', 0.5)
     converter.say(transcript)
@@ -126,8 +109,6 @@ def helpPage():
 def introAudio():
     textToAudio(" Welcome to Voice-libs, a phrasel template word game, that you can controll with just your voice.")
     textToAudio("While I read the story to you, i'll add blanks in each section of the sentence for you to replace, then i will give you some time to give me a response.")
-    #textToAudio("I will now take you to the help page, to familiarize you with some of the commands I can accept.")
-    #helpPage()
     textToAudio("I'll also tell you what type of word I need, whether it's a noun, verb, or adjective. If you need additional help, just ask for it. ")
-    textToAudio("Click the green Start button to start the game, or click the purple Help button for a condensed version of commands you can use.")
+    textToAudio("Click the green Start button to start the game, or click the purple Help button for a condensed version of commands you can use. You can also use your voice for these commands. Do you understand?")
 

@@ -118,16 +118,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
         self.setGeometry(1000, 500, 2000, 1000)
 
-    def textToAudio(transcript):
-            converter = pyttsx3.init()
-            converter.setProperty('rate', 200)
-            converter.setProperty('volume', 0.5)
-            converter.say(transcript)
-            print(transcript)
-
-
     def activate_tab_1(self):
-
+        #beginning of gameplay 
         gameOn = True
         agentResponse = ""
         self.label.setText("Hello, what is your name?")
@@ -216,7 +208,7 @@ class MainWindow(QMainWindow):
                         newMadlib.append(currMadlib[index])
                         newMadlib[index] = newMadlib[index].replace("blank", check)
                         index += 1
-                        tobeValidated = False
+                        tobeValidated = False    
 
                     elif (len(set) == 0):
                         QApplication.processEvents()
@@ -248,8 +240,7 @@ class MainWindow(QMainWindow):
                         QApplication.processEvents()
                         readStory(newMadlib)
                         self.label.setText("The game is now over "+userName+", press start to begin a new session.")
-                        QApplication.processEvents()
-                        
+                        QApplication.processEvents()          
                         gameOn = False
                         tobeValidated = False
                 #if nothing can be recognized, reprompt user and explain phrase was not recognized
@@ -271,7 +262,6 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv)
-
 window = MainWindow()
 window.show()
 
