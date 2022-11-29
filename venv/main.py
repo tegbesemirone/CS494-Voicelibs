@@ -5,6 +5,8 @@ from numpy import empty
 from util import *
 from dialogflow import *
 
+#This was the basis for the gui code. we utilized this a test envoriment for the dialogflow agent.
+
 
 #array with the Madlib story
 currMadlib = ["Once upon a blank, in a kingdom far, far away ", ", there lived a blank princess. ",
@@ -114,7 +116,6 @@ def main():
             #if nothing can be recognized, reprompt user and explain phrase was not recognized
             else:
                 textToAudio("I didn't understand what you just said, can you rephrase that, or give me another word?")
-                #textToAudio(wordtype[index])
 
 if __name__ == '__main__':
     main()

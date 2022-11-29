@@ -69,6 +69,7 @@ wordtype = ["Can you say a noun please?",
 "Give me a noun, any noun.", 
 "Say a body part, but make sure to say the singular version, I'll make it plural.",
 "Say a verb please."]
+#array for wortype and backup word type
 wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n', 'a', 'v', 'n', 'n', 'n', 'a', 'n','n', 'v']
 wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n', 's','v','n', 's', 'n', 's', 'n','n', 's']
 
@@ -106,7 +107,7 @@ class MainWindow(QMainWindow):
         
         self.label = QLabel("Click the green button to start the game!", self)
         self.label.setStyleSheet("color: white; font-size: 60pt;")
-        #self.label.setGeometry(100, 60, 1000, 800)
+
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setWordWrap(True)
 
@@ -126,18 +127,7 @@ class MainWindow(QMainWindow):
 
 
     def activate_tab_1(self):
-        """
-        converter = pyttsx3.init()
-        
-        #textToAudio("Hello, what is your name?", converter)
-        #converter.setProperty('rate', 200)
-        #converter.setProperty('volume', 0.5)
-        #converter.say("Hello, what is your name?")
-        print("Hello, what is your name?")
-        #converter.runAndWait()
-        name = transcribeAudio()
-        self.label.setText(name)
-        """
+
         gameOn = True
         agentResponse = ""
         self.label.setText("Hello, what is your name?")
@@ -147,7 +137,6 @@ class MainWindow(QMainWindow):
         userName = callAgent(name)
         self.label.setText("Hello, "+ userName +". Welcome to Voice-Libs")
         QApplication.processEvents()
-        #textToAudio("Hello " + userName + " Welcome to Voice-libs.")
         introAudio()
         name = transcribeAudio()
         agentResponse = callAgent(name)
@@ -199,6 +188,7 @@ class MainWindow(QMainWindow):
                     check = agentResponse.lower()
                     check = check.replace('.', '')
 
+                    #quit command
                     if(check == "quit"):
                         self.label.setText("Goodbye, " +userName)
                         QApplication.processEvents()
@@ -206,19 +196,19 @@ class MainWindow(QMainWindow):
                         gameOn = False
                         tobeValidated = False
                         break
-
+                    #repeat command
                     if(check == "repeat"):
                         self.label.setText("Repeating the last line now.")
                         QApplication.processEvents()
                         textToAudio("Sure, repeating the last line now.")
                         break
-
+                    #help command
                     if (check == "help"):
                         self.label.setText("Help audio now playing. ")
                         QApplication.processEvents()
                         helpPage()
                         break
-                    print("word is: " + check) #error checking
+                    print("word is: " + check) #dialogflow agent error checking to print in terminal
                     set = wordAnalyzer(check)
                     print(set)
                     # checks if word matches neccessary requirements, appends index
@@ -237,10 +227,10 @@ class MainWindow(QMainWindow):
                         QApplication.processEvents()
                         textToAudio("Sorry, that word wont work, say another one.")
                         textToAudio(wordtype[index])
-                # handles commands "Read Story" and "Finish Story"
+                #handles commands "Read Story" and "Finish Story"
                 elif word_count(agentResponse) == 2:  
 
-                    # read story command
+                    #read story command
                     if (agentResponse == "Read Story"):
                         self.label.setText(userName+", your current story is now playing.")  
                         QApplication.processEvents()
@@ -249,7 +239,7 @@ class MainWindow(QMainWindow):
                         QApplication.processEvents()
                         textToAudio("Let's continue from the current line.")
                         tobeValidated = False
-                    # finish story command
+                    #finish story command
                     if (agentResponse == "Finish Story"): 
                         turnArrToPDF(newMadlib)
                         QApplication.processEvents()
@@ -265,12 +255,11 @@ class MainWindow(QMainWindow):
                 #if nothing can be recognized, reprompt user and explain phrase was not recognized
                 else:
                     textToAudio("I didn't understand what you just said, can you rephrase that, or give me another word?")
-                    #textToAudio(wordtype[index])
        
 
     def activate_tab_2(self):
         #help tab
-        self.label.setText("say FINISH STORY to export the final story to a pdf, say READ STORY to hear your story, or say HELP to see hear commands again")
+        self.label.setText("Help audio now playing.")
         helpPage()
         QApplication.processEvents()
 
