@@ -25,11 +25,6 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import *
 
-converter = pyttsx3.init()
-# Can be more than 100
-converter.setProperty('rate', 175)
-# Set volume 0-1
-converter.setProperty('volume', 0.5)
 
 r = sr.Recognizer()
 r.energy_threshold = 300
@@ -60,6 +55,8 @@ wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n', 's','v','n', 's', 'n', 's',
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        converter = pyttsx3.init()
+        
 
         self.setWindowTitle("Voice Libs")
         self.setStyleSheet("background-color: #2b323c")
@@ -85,10 +82,10 @@ class MainWindow(QMainWindow):
         btn.setStyleSheet("background-color : purple")
 
   
-        self.setGeometry(0, 0, 400, 300)
+        self.setGeometry(1000, 500, 2000, 1000)
         
-        self.label = QLabel(":)", self)
-        self.label.setGeometry(200, 150, 100, 50)
+        self.label = QLabel("THIS IS THE START OF THE GAME", self)
+        self.label.setGeometry(500, 1000, 300, 300)
         self.label.setWordWrap(True)
 
         pagelayout.addWidget(self.label)
@@ -99,15 +96,34 @@ class MainWindow(QMainWindow):
         
         self.label.setAlignment(Qt.AlignCenter)
 
+    def textToAudio(transcript):
+            converter = pyttsx3.init()
+            converter.setProperty('rate', 200)
+            converter.setProperty('volume', 0.5)
+            converter.say(transcript)
+            print(transcript)
+
 
     def activate_tab_1(self):
+        """
+        converter = pyttsx3.init()
+        self.label.setText("Hello, what is your name?")
+        #textToAudio("Hello, what is your name?", converter)
+        #converter.setProperty('rate', 200)
+        #converter.setProperty('volume', 0.5)
+        #converter.say("Hello, what is your name?")
+        print("Hello, what is your name?")
+        #converter.runAndWait()
+        name = transcribeAudio()
+        self.label.setText(name)
+        """
         gameOn = True
         agentResponse = ""
         textToAudio("Hello, what is your name?")
         name = transcribeAudio()
         userName = callAgent(name)
         introAudio(userName)
-        name = transcribeAudio()
+        
         agentResponse = callAgent(name)
 
         #checks if the commands match the accepted phrases, game starts regardless of if the phrases match
@@ -194,7 +210,9 @@ class MainWindow(QMainWindow):
                 else:
                     textToAudio("I didn't understand what you just said, can you rephrase that, or give me another word?")
                     #textToAudio(wordtype[index])
+        
 
+        
 
     def activate_tab_2(self):
         self.label.setText("you can press the microphone icon to say the following commands: use FINISH STORY to export the final story to a pdf, use READ STORY to hear your story, use HELP to see these commands again")
