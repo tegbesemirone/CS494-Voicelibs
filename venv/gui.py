@@ -31,44 +31,44 @@ r.energy_threshold = 300
 r.dynamic_energy_threshold = True
 
 #array with the Madlib story
-currMadlib = ["Once upon a blank, in a kingdom far, far away ", 
+currMadlib = ["Once upon a blank, in a kingdom far, far away. ", 
 ", there lived a blank princess. ",
-"Princess blank was loved by everyone ", 
+"Princess blank was loved by everyone. ", 
 "in the kingdom of blank-shire, ",
 "whether they were members of the royal blank, ", 
 "Knights of the blank Table, ",
 "or blank vendors in the town square. ", 
-"Even the blank farmers who lived ",
-"far outisde the tall castle blank adored her!", 
-"The gentle princess had a blank childhood", 
-" blanking in the garden, playing music", 
-"on her blank-string harp",
-"and learning to blank-fight with her father",
-", the brave King blank the third.", 
-"But one night, something blank happened that changed her life forever.",
-"A blank-breathing dragon", 
-" with two blanks attacked the castle!", 
+"Even the blank farmers who lived. ",
+"far outisde the tall castle blank adored her! ", 
+"The gentle princess had a blank childhood. ", 
+"blanking in the garden, playing music. ", 
+"on her blank-string harp ",
+"and learning to blank-fight with her father, ",
+"the brave King blank the third. ", 
+"But one night, something blank happened that changed her life forever. ",
+"A blank-breathing dragon ", 
+"with two blanks attacked the castle! ", 
 "The king suddenly blanks after defending the castle and was never heard from again." ]
 newMadlib = []
 #array with word prompts
-wordtype = [". Can you say a noun please?", 
+wordtype = ["Can you say a noun please?", 
 " Please say an adjective to describe the princess.",
-". Say a silly word, needs to be a noun.", 
-". Say an animal", 
-". Mention a place, a noun of course",
-". Give me a descriptive adjective please.",
-". Give a noun for what the vendors are selling", 
-". Mention a food the farmers are growing",
-". Give a plural noun", 
-". Please provide an adjective", 
-". Provide a verb, I'll add -ing to it.",
-". Give me a number please.", 
-". Say a noun, any noun.", 
-". Give me a noun, I may not recognize all pronouns.",
-". I'm looking for an adjective here.", 
-". Give me a noun, any noun.", 
-". Say a body part, but make sure to say the singular version, I'll make it plural.",
-". Say a verb please."]
+"Say a silly word, needs to be a noun.", 
+"Say an animal", 
+"Mention a place, a noun of course.",
+"Give me a descriptive adjective please.",
+"Give a noun for what the vendors are selling.", 
+"Mention a food the farmers are growing.",
+"Give a plural noun.", 
+"Please provide an adjective.", 
+"Provide a verb, I'll add -ing to it.",
+"Give me a number please.", 
+"Say a noun, any noun.", 
+"Give me a noun, I may not recognize all pronouns.",
+"I'm looking for an adjective here.", 
+"Give me a noun, any noun.", 
+"Say a body part, but make sure to say the singular version, I'll make it plural.",
+"Say a verb please."]
 wordMatch = ['n', 'a', 'n', 'n', 'n', 'a', 'n', 'n', 'n', 'a', 'v', 'n', 'n', 'n', 'a', 'n','n', 'v']
 wordAlt = ['n', 's','n','n','n', 's', 'n', 'n', 'n', 's','v','n', 's', 'n', 's', 'n','n', 's']
 
@@ -148,7 +148,7 @@ class MainWindow(QMainWindow):
         self.label.setText("Hello, "+ userName +". Welcome to Voice-Libs")
         QApplication.processEvents()
         #textToAudio("Hello " + userName + " Welcome to Voice-libs.")
-        #introAudio(userName) put into new button
+        introAudio()
         name = transcribeAudio()
         agentResponse = callAgent(name)
 
@@ -158,6 +158,7 @@ class MainWindow(QMainWindow):
             QApplication.processEvents()
             textToAudio("Great, let us begin")
         elif agentResponse == "Help":
+            self.label.setText("Game will begin after help audio. ")
             QApplication.processEvents()
             helpPage()
 
@@ -199,7 +200,7 @@ class MainWindow(QMainWindow):
                     check = check.replace('.', '')
 
                     if(check == "quit"):
-                        self.label.setText("Goodbye " +userName)
+                        self.label.setText("Goodbye, " +userName)
                         QApplication.processEvents()
                         textToAudio("Turning off now, goodbye "+userName)
                         gameOn = False
@@ -213,6 +214,7 @@ class MainWindow(QMainWindow):
                         break
 
                     if (check == "help"):
+                        self.label.setText("Help audio now playing. ")
                         QApplication.processEvents()
                         helpPage()
                         break
@@ -239,19 +241,25 @@ class MainWindow(QMainWindow):
                 elif word_count(agentResponse) == 2:  
 
                     # read story command
-                    if (agentResponse == "Read Story"):  
+                    if (agentResponse == "Read Story"):
+                        self.label.setText(userName+", your current story is now playing.")  
                         QApplication.processEvents()
                         readStory(newMadlib)
+                        self.label.setText(userName+", let's continue making your story!") 
+                        QApplication.processEvents()
                         textToAudio("Let's continue from the current line.")
                         tobeValidated = False
                     # finish story command
                     if (agentResponse == "Finish Story"): 
                         turnArrToPDF(newMadlib)
                         QApplication.processEvents()
-                        textToAudio("Story has been exported. I enjoyed your creativity " + userName + ". Let's listen to your final story, and export it to a pdf to read later!")
+                        textToAudio("Story has been exported. I enjoyed your creativity, " + userName + ". Let's listen to your final story, and export it to a pdf to read later!")
+                        self.label.setText(userName+", your final story is now playing!")
                         QApplication.processEvents()
                         readStory(newMadlib)
-                        self.label.setText(newMadlib)
+                        self.label.setText("The game is now over "+userName+", press start to begin a new session.")
+                        QApplication.processEvents()
+                        
                         gameOn = False
                         tobeValidated = False
                 #if nothing can be recognized, reprompt user and explain phrase was not recognized
